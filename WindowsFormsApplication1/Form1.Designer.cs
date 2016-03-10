@@ -66,6 +66,7 @@
             this.chart1.PaletteCustomColors = new System.Drawing.Color[] {
         System.Drawing.Color.Black};
             series1.ChartArea = "ChartArea1";
+            series1.IsVisibleInLegend = false;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chart1.Series.Add(series1);

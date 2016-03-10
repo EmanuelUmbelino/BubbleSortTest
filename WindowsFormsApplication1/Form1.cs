@@ -17,6 +17,8 @@ namespace WindowsFormsApplication1
         Random random = new Random();
         int valueToRand;
         int i_ = 0;
+        int f_ = 1;
+        bool finished;
         private Timer timer1;
         int[] numbers;
         public void InitTimer()
@@ -35,6 +37,7 @@ namespace WindowsFormsApplication1
 
         private void Generate(object sender, EventArgs e)
         {
+            finished = false; f_ = 1; i_ = 1;
             if(timer1.Enabled)
                 timer1.Stop();
             valueToRand = int.Parse(numericUpDown1.Value.ToString());
@@ -62,6 +65,8 @@ namespace WindowsFormsApplication1
                 Series series = this.chart1.Series.Add(i.ToString());
                 series.Points.Add(numbers[i]);
                 series.IsVisibleInLegend = false;
+                if (finished && i < i_)
+                    series.Color = Color.Lime;
                 if (i.Equals(i_))
                 {
                     series.Color = Color.Red;
@@ -92,7 +97,7 @@ namespace WindowsFormsApplication1
         }
         int[] Organize(int[] numbers)
         {
-            if (i_ < numbers.Length-1)
+            if (i_ < numbers.Length - f_)
             {
                 if (numbers[i_] > numbers[i_ + 1])
                 {
@@ -110,7 +115,15 @@ namespace WindowsFormsApplication1
             }
             else
             {
+                if (finished)
+                    timer1.Stop();
                 i_ = 0;
+                f_++;
+                if (f_ >= numbers.Length)
+                {
+                    f_ = 1;
+                    finished = true;
+                }
             }
             return numbers;
         }
