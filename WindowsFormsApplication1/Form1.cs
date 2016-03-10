@@ -7,6 +7,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
@@ -14,35 +15,57 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         Random random = new Random();
-        int valueToRand = 10;
-        int changeTimes = 0;
-        TimeSpan totalTime = new TimeSpan();
-        Stopwatch sw;
+        int valueToRand;
+        int i_ = 0;
+        private Timer timer1;
+        int[] numbers;
+        public void InitTimer()
+        {
+            timer1 = new Timer();
+            timer1.Tick += new EventHandler(timer1_Tick);
+            timer1.Interval = 1; // in miliseconds
+            timer1.Start();
+        }
+
         public Form1()
         {
             InitializeComponent();
+            timer1 = new Timer();
         }
 
         private void Generate(object sender, EventArgs e)
         {
-            totalTime = new TimeSpan();
-            AddElemets();
-        }
-        void AddElemets()
-        {
-            label1.Text = "";
-            changeTimes = 0;
-            while (valueToRand + 5 * changeTimes <= 100)
+            if(timer1.Enabled)
+                timer1.Stop();
+            valueToRand = int.Parse(numericUpDown1.Value.ToString());
+            numbers = RandomNumbers(valueToRand);
+            chart1.Series.Clear();
+            for (int i = 0; i < numbers.Length; i++)
             {
-                int[] numbers = RandomNumbers(valueToRand + changeTimes * 5);
-                numbers = Organize(numbers);
-                label1.Text += totalTime + " :  ";
-                foreach (int number in numbers)
+                Series series = this.chart1.Series.Add(i.ToString());
+                series.Points.Add(numbers[i]);
+                series.IsVisibleInLegend = false;
+            }
+            InitTimer();
+        }
+        
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Write();
+        }
+        void Write()
+        {
+            numbers = Organize(numbers);
+            chart1.Series.Clear();
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                Series series = this.chart1.Series.Add(i.ToString());
+                series.Points.Add(numbers[i]);
+                series.IsVisibleInLegend = false;
+                if (i.Equals(i_))
                 {
-                    label1.Text += number.ToString() + "; ";
+                    series.Color = Color.Red;
                 }
-                label1.Text += "\n";
-                changeTimes += 1;
             }
         }
         int[] RandomNumbers (int length)
@@ -50,44 +73,45 @@ namespace WindowsFormsApplication1
             int[] myReturn = new int[length];
             for (int i = 0; i < length; i++)
             {
-                myReturn[i] = random.Next(0, valueToRand + 5 * changeTimes);
+                myReturn[i] = RandomAndOrder(myReturn[i], myReturn, i); 
             }
             return myReturn;
         }
-        int[] Organize(int[] numbers)
+        int RandomAndOrder(int i, int[] numbers, int myPosition)
         {
-            sw = Stopwatch.StartNew();
-            for (int i = 0; i < numbers.Length; i++)
+            i = random.Next(0, valueToRand);
+            for (int f = 0; f < myPosition; f++)
             {
-                for (int f = i; f < numbers.Length; f++)
+                if (i.Equals(numbers[f]))
                 {
-                    if (f != i)
-                    {
-                        if (trackBar1.Value.Equals(0))
-                        {
-                            if (numbers[i] > numbers[f])
-                            {
-                                int save = numbers[i];
-                                numbers[i] = numbers[f];
-                                numbers[f] = save;
-
-                            }
-                        }
-                        else if (trackBar1.Value.Equals(2))
-                        {
-                            if (numbers[i] < numbers[f])
-                            {
-                                int save = numbers[i];
-                                numbers[i] = numbers[f];
-                                numbers[f] = save;
-                                
-                            }
-                        }
-                    }
+                    i = RandomAndOrder(i, numbers, myPosition);
                 }
             }
-            sw.Stop();
-            totalTime = sw.Elapsed;
+
+            return i;
+        }
+        int[] Organize(int[] numbers)
+        {
+            if (i_ < numbers.Length-1)
+            {
+                if (numbers[i_] > numbers[i_ + 1])
+                {
+                    int saveNumber = numbers[i_];
+                    int saveLocal = i_;
+                    numbers[i_] = numbers[i_ + 1];
+                    numbers[i_ + 1] = saveNumber;
+                    i_++;
+
+                }
+                else
+                {
+                    i_++;
+                }
+            }
+            else
+            {
+                i_ = 0;
+            }
             return numbers;
         }
 
