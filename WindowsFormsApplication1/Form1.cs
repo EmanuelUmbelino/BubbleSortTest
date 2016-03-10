@@ -15,12 +15,17 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         Random random = new Random();
+        Timer timer1;
+        Series series;
+
+        int[] numbers;
         int valueToRand;
+        int comparisons;
         int i_ = 0;
         int f_ = 1;
+
         bool finished;
-        private Timer timer1;
-        int[] numbers;
+
         public void InitTimer()
         {
             timer1 = new Timer();
@@ -38,6 +43,7 @@ namespace WindowsFormsApplication1
         private void Generate(object sender, EventArgs e)
         {
             finished = false; f_ = 1; i_ = 1;
+            comparisons = 0;
             if(timer1.Enabled)
                 timer1.Stop();
             valueToRand = int.Parse(numericUpDown1.Value.ToString());
@@ -45,7 +51,7 @@ namespace WindowsFormsApplication1
             chart1.Series.Clear();
             for (int i = 0; i < numbers.Length; i++)
             {
-                Series series = this.chart1.Series.Add(i.ToString());
+                series = this.chart1.Series.Add(i.ToString());
                 series.Points.Add(numbers[i]);
                 series.IsVisibleInLegend = false;
             }
@@ -55,6 +61,7 @@ namespace WindowsFormsApplication1
         private void timer1_Tick(object sender, EventArgs e)
         {
             Write();
+            label1.Text = "Comparisons: " + comparisons;
         }
         void Write()
         {
@@ -62,7 +69,7 @@ namespace WindowsFormsApplication1
             chart1.Series.Clear();
             for (int i = 0; i < numbers.Length; i++)
             {
-                Series series = this.chart1.Series.Add(i.ToString());
+                series = this.chart1.Series.Add(i.ToString());
                 series.Points.Add(numbers[i]);
                 series.IsVisibleInLegend = false;
                 if (finished && i < i_)
@@ -106,11 +113,15 @@ namespace WindowsFormsApplication1
                     numbers[i_] = numbers[i_ + 1];
                     numbers[i_ + 1] = saveNumber;
                     i_++;
+                    if(!finished)
+                        comparisons++;
 
                 }
                 else
                 {
                     i_++;
+                    if (!finished)
+                        comparisons++;
                 }
             }
             else
