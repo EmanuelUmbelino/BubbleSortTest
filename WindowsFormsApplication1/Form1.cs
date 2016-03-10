@@ -13,7 +13,8 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         Random random = new Random();
-        int valueToRand = 1001;
+        int valueToRand = 10;
+        int changeTimes = 0;
         public Form1()
         {
             InitializeComponent();
@@ -21,42 +22,66 @@ namespace WindowsFormsApplication1
 
         private void Generate(object sender, EventArgs e)
         {
-            int[] numbers = new int[50];
+            AddElemets();
+        }
+        void AddElemets()
+        {
             label1.Text = "";
-            for (int i = 0; i < numbers.Length; i++ )
+            changeTimes = 0;
+            while (valueToRand + 5 * changeTimes <= 100)
             {
-                numbers[i] = RandomAndTest(numbers[i], numbers, i);
-            }
-            foreach(int ou in numbers)
-            {
+                int[] numbers = RandomNumbers(valueToRand + changeTimes * 5);
+                numbers = Organize(numbers);
                 
-                label1.Text += ou.ToString() + "; ";
+                foreach (int ou in numbers)
+                {
+                    label1.Text += ou.ToString() + "; ";
+                }
+                label1.Text += "\n";
+                changeTimes += 1;
             }
         }
-        int RandomAndTest (int i, int[] numbers, int myPosition)
+        int[] RandomNumbers (int length)
         {
-            i = random.Next(0, valueToRand);
-            for (int f = 0; f < myPosition; f++)
+            int[] myReturn = new int[length];
+            for (int i = 0; i < length; i++)
             {
-                if (i.Equals(numbers[f]))
+                myReturn[i] = random.Next(0, valueToRand + 5 * changeTimes);
+            }
+            return myReturn;
+        }
+        int[] Organize(int[] numbers)
+        {
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                for (int f = i; f < numbers.Length; f++)
                 {
-                    i = RandomAndTest(i, numbers, myPosition);
-                }
-                if (trackBar1.Value.Equals(0) && i > numbers[f])
-                {
-                    int ou = i;
-                    i = numbers[f];
-                    numbers[f] = ou;
-                }
-                else if (trackBar1.Value.Equals(2) && i < numbers[f])
-                {
-                    int ou = i;
-                    i = numbers[f];
-                    numbers[f] = ou;
+                    if (f != i)
+                    {
+                        if (trackBar1.Value.Equals(0))
+                        {
+                            if (numbers[i] > numbers[f])
+                            {
+                                int ou = numbers[i];
+                                numbers[i] = numbers[f];
+                                numbers[f] = ou;
+
+                            }
+                        }
+                        else if (trackBar1.Value.Equals(2))
+                        {
+                            if (numbers[i] < numbers[f])
+                            {
+                                int ou = numbers[i];
+                                numbers[i] = numbers[f];
+                                numbers[f] = ou;
+                                
+                            }
+                        }
+                    }
                 }
             }
-
-            return i;
+            return numbers;
         }
 
     }
