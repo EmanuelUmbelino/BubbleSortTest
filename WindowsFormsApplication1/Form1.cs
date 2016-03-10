@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace WindowsFormsApplication1
         Random random = new Random();
         int valueToRand = 10;
         int changeTimes = 0;
+        TimeSpan totalTime = new TimeSpan();
+        Stopwatch sw;
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +25,7 @@ namespace WindowsFormsApplication1
 
         private void Generate(object sender, EventArgs e)
         {
+            totalTime = new TimeSpan();
             AddElemets();
         }
         void AddElemets()
@@ -32,10 +36,10 @@ namespace WindowsFormsApplication1
             {
                 int[] numbers = RandomNumbers(valueToRand + changeTimes * 5);
                 numbers = Organize(numbers);
-                
-                foreach (int ou in numbers)
+                label1.Text += totalTime + " :  ";
+                foreach (int number in numbers)
                 {
-                    label1.Text += ou.ToString() + "; ";
+                    label1.Text += number.ToString() + "; ";
                 }
                 label1.Text += "\n";
                 changeTimes += 1;
@@ -52,6 +56,7 @@ namespace WindowsFormsApplication1
         }
         int[] Organize(int[] numbers)
         {
+            sw = Stopwatch.StartNew();
             for (int i = 0; i < numbers.Length; i++)
             {
                 for (int f = i; f < numbers.Length; f++)
@@ -62,9 +67,9 @@ namespace WindowsFormsApplication1
                         {
                             if (numbers[i] > numbers[f])
                             {
-                                int ou = numbers[i];
+                                int save = numbers[i];
                                 numbers[i] = numbers[f];
-                                numbers[f] = ou;
+                                numbers[f] = save;
 
                             }
                         }
@@ -72,17 +77,20 @@ namespace WindowsFormsApplication1
                         {
                             if (numbers[i] < numbers[f])
                             {
-                                int ou = numbers[i];
+                                int save = numbers[i];
                                 numbers[i] = numbers[f];
-                                numbers[f] = ou;
+                                numbers[f] = save;
                                 
                             }
                         }
                     }
                 }
             }
+            sw.Stop();
+            totalTime = sw.Elapsed;
             return numbers;
         }
+
 
     }
 }
