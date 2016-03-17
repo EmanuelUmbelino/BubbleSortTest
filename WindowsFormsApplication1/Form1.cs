@@ -21,9 +21,13 @@ namespace WindowsFormsApplication1
 
         private int[] numbers;
         private int valueToRand, comparisons, 
-            selectNumber = 1, numberChecked = 1;
+            selectNumber = 0, numberChecked = 1;
 
         bool finished;
+
+        int i, j, k, mid;
+        int[] arrayTemp;
+
         #endregion
 
         #region Methods
@@ -36,7 +40,7 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
-        #region Start All
+        #region Begin
         // When the button "Go" is clicked, this method is called.
         // This execute just in the first time.
         private void Generate(object sender, EventArgs e)
@@ -70,20 +74,33 @@ namespace WindowsFormsApplication1
         public void InitTimer()
         {
             timer = new Timer();
-            timer.Tick += new EventHandler(timer1_Tick);
-            timer.Interval = 1; // in miliseconds
+            if (domainUpDown1.Text.Equals("BubbleSort"))
+            {
+                timer.Tick += new EventHandler(buble_Tick);
+                timer.Interval = 1; // in miliseconds
+            }
+            else if (domainUpDown1.Text.Equals("MergeSort"))
+            {
+                timer.Tick += new EventHandler(merge_Tick);
+                timer.Interval = 100; // in miliseconds
+            }
             timer.Start();
         }
         // When is passed a interval, this is called.
         // This call every time until finish to organize.
-        private void timer1_Tick(object sender, EventArgs e)
+        private void buble_Tick(object sender, EventArgs e)
         {
-            OganizeNumbers();
+            BubbleSort();
+            Write();
+        }
+        private void merge_Tick(object sender, EventArgs e)
+        {
+            MergeSort(0, numbers.Length - 1);
             Write();
         }
         #endregion
 
-        #region Write
+        #region Draw
         void Write()
         {
             // Reset graphic.
@@ -108,9 +125,9 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
-        #region Numbers
-        #region Reorganize Numbers
-        void OganizeNumbers()
+        #region Algorithm
+        #region BubbleSort
+        void BubbleSort()
         {
             // Check that you aren't on the end of list.
             if (selectNumber < numbers.Length - numberChecked)
@@ -158,6 +175,61 @@ namespace WindowsFormsApplication1
         }
         #endregion 
 
+        #region MergeSort
+        void MergeSort(int start, int end)
+        {
+            if (start.Equals(end))
+                return; 
+            
+            mid = (start + end) / 2;
+
+            MergeSort(start, mid);
+            MergeSort(mid+1, end);
+
+            i = start;
+            j = mid + 1;
+            k = 0;
+            arrayTemp = new int[end - start + 1];
+
+            while (i < mid + 1 || j < end + 1)
+            {
+                if (i == mid + 1)
+                { 
+                    arrayTemp[k] = numbers[j];
+                    j++;
+                }
+                else
+                {
+                    if (j == end + 1)
+                    {
+                        arrayTemp[k] = numbers[i];
+                        i++;
+                    }
+                    else
+                    {
+                        if (numbers[i] < numbers[j])
+                        {
+                            arrayTemp[k] = numbers[i];
+                            i++;
+                        }
+                        else
+                        {
+                            arrayTemp[k] = numbers[j];
+                            j++;
+                        }
+                    }
+                }
+                k++;
+            }
+            for (i = start; i <= end; i++)
+            {
+                numbers[i] = arrayTemp[i - start];
+            }
+            
+        }
+        #endregion 
+        #endregion
+
         #region Raffle Array Elements
         int[] GenerateArray (int length)
         {
@@ -186,7 +258,6 @@ namespace WindowsFormsApplication1
 
             return i;
         }
-        #endregion
         #endregion
         #endregion
 
