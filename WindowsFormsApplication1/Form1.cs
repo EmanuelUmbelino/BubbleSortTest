@@ -24,7 +24,7 @@ namespace WindowsFormsApplication1
             selectNumber = 0, numberChecked = 1;
 
         bool finished;
-
+        
         int i, j, k, mid;
         int[] arrayTemp;
 
@@ -35,7 +35,7 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-            // Initialize the timer to prevent bugs.
+            // Initialize the timer to prevent bugs
             timer = new Timer();
         }
         #endregion
