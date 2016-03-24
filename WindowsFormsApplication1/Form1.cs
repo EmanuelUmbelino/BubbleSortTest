@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Diagnostics;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms;
 
@@ -17,20 +10,22 @@ namespace WindowsFormsApplication1
     {
         #region Property
         private Random random = new Random();
-        private Thread backgroundWorker;
+        private Thread backgroundWorker1, backgroundWorker2;
 
-        private int valueToRand, comparisons;
+        private int valueToRand1, valueToRand2, comparisons1, comparisons2;
 
-        private bool finished;
+        private bool finished1, finished2;
         #endregion
 
         #region Methods
         #region Initialize
         public Form1()
         {
-            finished = true;
+            finished1 = true;
+            finished2 = true;
             InitializeComponent();
             chart1.Series.Clear();
+            chart2.Series.Clear();
         }
         #endregion
 
@@ -38,14 +33,20 @@ namespace WindowsFormsApplication1
         
         private void Start()
         {
-            if (finished)
+            if (finished1 && finished2)
             {
-                finished = false;
+                finished1 = false;
+                finished2 = false;
                 chart1.Series.Clear();
-                comparisons = 0;
-                backgroundWorker = new Thread(DrawGraph);
-                backgroundWorker.IsBackground = true;
-                backgroundWorker.Start();
+                chart2.Series.Clear();
+                comparisons1 = 0;
+                comparisons2 = 0;
+                backgroundWorker1 = new Thread(DrawGraph1);
+                backgroundWorker1.IsBackground = true;
+                backgroundWorker1.Start();
+                backgroundWorker2 = new Thread(DrawGraph2);
+                backgroundWorker2.IsBackground = true;
+                backgroundWorker2.Start();
             }
         }
 
@@ -57,50 +58,20 @@ namespace WindowsFormsApplication1
             Start();
         }
         #endregion
-
-        #region Timer
-        //// Create the nem timer with 1ms of interval in every tick.
-        //public void InitTimer()
-        //{
-        //    timer = new Timer();
-        //    if (domainUpDown1.Text.Equals("BubbleSort"))
-        //    {
-        //        timer.Tick += new EventHandler(buble_Tick);
-        //        timer.Interval = 1; // in miliseconds
-        //    }
-        //    else if (domainUpDown1.Text.Equals("MergeSort"))
-        //    {
-        //        timer.Tick += new EventHandler(merge_Tick);
-        //        timer.Interval = 100; // in miliseconds
-        //    }
-        //    timer.Start();
-        //}
-        //// When is passed a interval, this is called.
-        //// This call every time until finish to organize.
-        //private void buble_Tick(object sender, EventArgs e)
-        //{
-        //    BubbleSort();
-        //    Write();
-        //}
-        //private void merge_Tick(object sender, EventArgs e)
-        //{
-        //    MergeSort(0, numbers.Length - 1);
-        //    Write();
-        //}
-        #endregion
-
+        
         #region Draw
-        private void DrawGraph()
+        private void DrawGraph1()
         {
             this.Invoke(new MethodInvoker(() =>
             {
                 chart1.Series.Add("Execution: " + domainUpDown1.Text);
+                chart1.Series[0].IsVisibleInLegend = false;
                 chart1.Series[0].ChartType = SeriesChartType.Column;
                 chart1.Series[0].Points.Clear();
             }));
 
-            valueToRand = int.Parse(numericUpDown1.Value.ToString());
-            int[] data = GenerateArray(valueToRand);
+            valueToRand1 = int.Parse(numericUpDown1.Value.ToString());
+            int[] data = GenerateArray(valueToRand1);
             for (int k = 0; k < data.Length; k++)
             {
                 this.Invoke(new MethodInvoker(() =>
@@ -109,11 +80,11 @@ namespace WindowsFormsApplication1
                 }));
             }
             if (domainUpDown1.Text.Equals("BubbleSort"))
-                BubbleSort(data);
+                BubbleSort(data,1);
             else if (domainUpDown1.Text.Equals("MergeSort"))
-                MergeSort(data, 0, data.Length-1);
+                MergeSort(data, 0, data.Length-1,1);
             else if (domainUpDown1.Text.Equals("QuickSort"))
-                QuickSort(data, 0, data.Length - 1);
+                QuickSort(data, 0, data.Length - 1, 1);
             else
                 MessageBox.Show("Select a Type");
 
@@ -124,7 +95,45 @@ namespace WindowsFormsApplication1
                     chart1.Series[0].Points[k].Color = Color.Green;
                 }));
             }
-            finished = true;
+
+            finished1 = true;
+        }
+        private void DrawGraph2()
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                chart2.Series.Add("Execution: " + domainUpDown2.Text);
+                chart2.Series[0].IsVisibleInLegend = false;
+                chart2.Series[0].ChartType = SeriesChartType.Column;
+                chart2.Series[0].Points.Clear();
+            }));
+
+            valueToRand2 = int.Parse(numericUpDown2.Value.ToString());
+            int[] data = GenerateArray(valueToRand2);
+            for (int k = 0; k < data.Length; k++)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    chart2.Series[0].Points.AddXY(k, data[k]);
+                }));
+            }
+            if (domainUpDown2.Text.Equals("BubbleSort"))
+                BubbleSort(data,2);
+            else if (domainUpDown2.Text.Equals("MergeSort"))
+                MergeSort(data, 0, data.Length - 1, 2);
+            else if (domainUpDown2.Text.Equals("QuickSort"))
+                QuickSort(data, 0, data.Length - 1, 2);
+            else
+                MessageBox.Show("Select a Type");
+
+            for (int k = 0; k < data.Length; k++)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    chart2.Series[0].Points[k].Color = Color.Green;
+                }));
+            }
+            finished2 = true;
         }
 
 
@@ -153,7 +162,7 @@ namespace WindowsFormsApplication1
 
         #region Algorithm
         #region BubbleSort
-        private void BubbleSort(int[] data)
+        private void BubbleSort(int[] data, int myThread)
         {
             for (int i = data.Length - 1; i >= 1; i--)
             {
@@ -165,19 +174,41 @@ namespace WindowsFormsApplication1
                         int aux = data[j];
                         data[j] = data[j + 1];
                         data[j + 1] = aux;
-                        comparisons++;
-                        for (int k = 0; k < data.Length; k++)
+                        if (myThread.Equals(1))
                         {
-                            this.Invoke(new MethodInvoker(() =>
+                            comparisons1++;
+                            for (int k = 0; k < data.Length; k++)
                             {
-                                if (k.Equals(j+1) || k.Equals(j+2))
-                                    chart1.Series[0].Points[k].Color = Color.Red;
-                                else
-                                    chart1.Series[0].Points[k].Color = Color.Black;
-                                chart1.Series[0].Points[k].SetValueXY(k, data[k]);
-                                label1.Text = "Comparisons: " + comparisons;
-                            }));
+                                this.Invoke(new MethodInvoker(() =>
+                                {
+
+                                    if (k.Equals(j + 1) || k.Equals(j + 2))
+                                        chart1.Series[0].Points[k].Color = Color.Red;
+                                    else
+                                        chart1.Series[0].Points[k].Color = Color.Black;
+                                    chart1.Series[0].Points[k].SetValueXY(k, data[k]);
+                                    label1.Text = "Comparisons: " + comparisons1;
+                                }));
+                            }
                         }
+                        else
+                        {
+                            comparisons2++;
+                            for (int k = 0; k < data.Length; k++)
+                            {
+                                this.Invoke(new MethodInvoker(() =>
+                                {
+
+                                    if (k.Equals(j + 1) || k.Equals(j + 2))
+                                        chart2.Series[0].Points[k].Color = Color.Red;
+                                    else
+                                        chart2.Series[0].Points[k].Color = Color.Black;
+                                    chart2.Series[0].Points[k].SetValueXY(k, data[k]);
+                                    label2.Text = "Comparisons: " + comparisons2;
+                                }));
+                            }
+                        }
+                        Thread.Sleep(10);
 
                     }
                 }
@@ -188,7 +219,7 @@ namespace WindowsFormsApplication1
         #endregion 
 
         #region MergeSort
-        void MergeSort(int[] data, int left, int right)
+        void MergeSort(int[] data, int left, int right, int myThread)
         {
             int i, j, k, mid;
             int []sup;
@@ -196,8 +227,8 @@ namespace WindowsFormsApplication1
             if (left == right) return;
             
             mid = (left + right) / 2;
-            MergeSort(data, left, mid);
-            MergeSort(data, mid + 1, right);
+            MergeSort(data, left, mid, myThread);
+            MergeSort(data, mid + 1, right, myThread);
             
             i = left;
             j = mid + 1;
@@ -227,19 +258,36 @@ namespace WindowsFormsApplication1
                     j++;
                 }
                 k++;
-                comparisons++;
+                if(myThread.Equals(1))
+                    comparisons1++;
+                else
+                    comparisons2++;
             }
-
-            // copia vetor intercalado para o vetor original
+            
             for (i = left; i <= right; i++)
             {
                 data[i] = sup[i - left];
-                this.Invoke(new MethodInvoker(() =>
+                if (myThread.Equals(1))
                 {
-                    chart1.Series[0].Points[i].Color = Color.Red;
-                    chart1.Series[0].Points[i].SetValueXY(i, data[i]);
-                    label1.Text = "Comparisons: " + comparisons;
-                }));
+
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        chart1.Series[0].Points[i].Color = Color.Red;
+                        chart1.Series[0].Points[i].SetValueXY(i, data[i]);
+                        label1.Text = "Comparisons: " + comparisons1;
+                    }));
+                }
+                else
+                {
+
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        chart2.Series[0].Points[i].Color = Color.Red;
+                        chart2.Series[0].Points[i].SetValueXY(i, data[i]);
+                        label2.Text = "Comparisons: " + comparisons2;
+                    }));
+                }
+                Thread.Sleep(10);
             }
             for (int n = 0; n < data.Length; n++)
             {
@@ -251,11 +299,12 @@ namespace WindowsFormsApplication1
                         chart1.Series[0].Points[n].Color = Color.Black;
                 }));
             }
+            Thread.Sleep(10);
         }
         #endregion
 
         #region QuickSort
-        void QuickSort(int[] data, int left, int right)
+        void QuickSort(int[] data, int left, int right, int myThread)
         {
             int i, j, x, y;
             i = left;
@@ -279,28 +328,64 @@ namespace WindowsFormsApplication1
                     data[j] = y;
                     i++;
                     j--;
+                    if (myThread.Equals(1))
+                    {
+
+                        comparisons1++;
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            chart1.Series[0].Points[i].Color = Color.Red;
+                            chart1.Series[0].Points[j].Color = Color.Red;
+                            label1.Text = "Comparisons: " + comparisons1;
+                        }));
+                        Thread.Sleep(10);
+                    }
+                    else
+                    {
+
+                        comparisons2++;
+                        this.Invoke(new MethodInvoker(() =>
+                        {
+                            chart2.Series[0].Points[i].Color = Color.Red;
+                            chart2.Series[0].Points[j].Color = Color.Red;
+                            label2.Text = "Comparisons: " + comparisons2;
+                        }));
+                        Thread.Sleep(10);
+                    }
+                }
+            }
+            if (myThread.Equals(1))
+            {
+                for (int n = 0; n < data.Length; n++)
+                {
                     this.Invoke(new MethodInvoker(() =>
                     {
-                        chart1.Series[0].Points[i].Color = Color.Red;
-                        chart1.Series[0].Points[j].Color = Color.Red;
+                        chart1.Series[0].Points[n].Color = Color.Black;
+                        chart1.Series[0].Points[n].SetValueXY(n, data[n]);
+                        label1.Text = "Comparisons: " + comparisons1;
                     }));
                 }
             }
-            for (int n = 0; n < data.Length; n++)
+            else
             {
-                this.Invoke(new MethodInvoker(() =>
+                for (int n = 0; n < data.Length; n++)
                 {
-                    chart1.Series[0].Points[n].Color = Color.Black;
-                    chart1.Series[0].Points[n].SetValueXY(n, data[n]);
-                }));
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        chart2.Series[0].Points[n].Color = Color.Black;
+                        chart2.Series[0].Points[n].SetValueXY(n, data[n]);
+                        label2.Text = "Comparisons: " + comparisons2;
+                    }));
+                }
             }
+            Thread.Sleep(10);
             if (j > left)
             {
-                QuickSort(data, left, j);
+                QuickSort(data, left, j, myThread);
             }
             if (i < right)
             {
-                QuickSort(data, i, right);
+                QuickSort(data, i, right, myThread);
             }
         }
 
@@ -323,7 +408,7 @@ namespace WindowsFormsApplication1
         int RandomArrayElements(int i, int[] numbers, int myPosition)
         {
             // Random a number, between 0 and total numbers.
-            i = random.Next(0, valueToRand);
+            i = random.Next(0, numbers.Length);
             // Checks this number repeats.
             for (int f = 0; f < myPosition; f++)
             {
