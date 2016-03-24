@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms;
@@ -16,216 +17,218 @@ namespace WindowsFormsApplication1
     {
         #region Property
         private Random random = new Random();
-        private Timer timer;
-        private Series series;
+        private Thread backgroundWorker;
 
-        private int[] numbers;
-        private int valueToRand, comparisons, 
-            selectNumber = 0, numberChecked = 1;
+        private int valueToRand, comparisons;
 
-        bool finished;
-        
-        int i, j, k, mid;
-        int[] arrayTemp;
-
+        private bool finished;
         #endregion
 
         #region Methods
         #region Initialize
         public Form1()
         {
+            finished = true;
             InitializeComponent();
-            // Initialize the timer to prevent bugs
-            timer = new Timer();
+            chart1.Series.Clear();
         }
         #endregion
 
         #region Begin
-        // When the button "Go" is clicked, this method is called.
-        // This execute just in the first time.
+        
+        private void Start()
+        {
+            if (finished)
+            {
+                finished = false;
+                chart1.Series.Clear();
+                comparisons = 0;
+                backgroundWorker = new Thread(DrawGraph);
+                backgroundWorker.IsBackground = true;
+                backgroundWorker.Start();
+            }
+        }
+
+
+        //// When the button "Go" is clicked, this method is called.
+        //// This execute just in the first time.
         private void Generate(object sender, EventArgs e)
         {
-            // Reset the properties.
-            finished = false; numberChecked = 1; selectNumber = 1;comparisons = 0;
-            // If timer is in execute, stop him.
-            if(timer.Enabled)
-                timer.Stop();
-            // Get the number of the "NumericUpDown" and use him to be the number of array. 
-            // Generate Array with this number.
-            valueToRand = int.Parse(numericUpDown1.Value.ToString());
-            numbers = GenerateArray(valueToRand);
-
-            // Reset graphic.
-            chart1.Series.Clear();
-            // Add all array elements in the graphic and hide the legend.
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                series = this.chart1.Series.Add(i.ToString());
-                series.Points.Add(numbers[i]);
-                series.IsVisibleInLegend = false;
-            }
-            // Starts the timer.
-            InitTimer();
+            Start();
         }
         #endregion
 
         #region Timer
-        // Create the nem timer with 1ms of interval in every tick.
-        public void InitTimer()
-        {
-            timer = new Timer();
-            if (domainUpDown1.Text.Equals("BubbleSort"))
-            {
-                timer.Tick += new EventHandler(buble_Tick);
-                timer.Interval = 1; // in miliseconds
-            }
-            else if (domainUpDown1.Text.Equals("MergeSort"))
-            {
-                timer.Tick += new EventHandler(merge_Tick);
-                timer.Interval = 100; // in miliseconds
-            }
-            timer.Start();
-        }
-        // When is passed a interval, this is called.
-        // This call every time until finish to organize.
-        private void buble_Tick(object sender, EventArgs e)
-        {
-            BubbleSort();
-            Write();
-        }
-        private void merge_Tick(object sender, EventArgs e)
-        {
-            MergeSort(0, numbers.Length - 1);
-            Write();
-        }
+        //// Create the nem timer with 1ms of interval in every tick.
+        //public void InitTimer()
+        //{
+        //    timer = new Timer();
+        //    if (domainUpDown1.Text.Equals("BubbleSort"))
+        //    {
+        //        timer.Tick += new EventHandler(buble_Tick);
+        //        timer.Interval = 1; // in miliseconds
+        //    }
+        //    else if (domainUpDown1.Text.Equals("MergeSort"))
+        //    {
+        //        timer.Tick += new EventHandler(merge_Tick);
+        //        timer.Interval = 100; // in miliseconds
+        //    }
+        //    timer.Start();
+        //}
+        //// When is passed a interval, this is called.
+        //// This call every time until finish to organize.
+        //private void buble_Tick(object sender, EventArgs e)
+        //{
+        //    BubbleSort();
+        //    Write();
+        //}
+        //private void merge_Tick(object sender, EventArgs e)
+        //{
+        //    MergeSort(0, numbers.Length - 1);
+        //    Write();
+        //}
         #endregion
 
         #region Draw
+        private void DrawGraph()
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                chart1.Series.Add("Execution: ");
+                chart1.Series[0].ChartType = SeriesChartType.Column;
+                chart1.Series[0].Points.Clear();
+            }));
+
+            valueToRand = int.Parse(numericUpDown1.Value.ToString());
+            int[] data = GenerateArray(valueToRand);
+            for (int k = 0; k < data.Length; k++)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    chart1.Series[0].Points.AddXY(k, data[k]);
+                }));
+            }
+            if (domainUpDown1.Text.Equals("BubbleSort"))
+                BubbleSort(data);
+            else if (domainUpDown1.Text.Equals("MergeSort"))
+                MergeSort(data, 0, data.Length-1);
+            else
+                MessageBox.Show("Select a Type");
+            finished = true;
+        }
+
+
         void Write()
         {
-            // Reset graphic.
-            chart1.Series.Clear();
-            // Add all array elements in the graphic and hide the legend.
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                series = this.chart1.Series.Add(i.ToString());
-                series.Points.Add(numbers[i]);
-                series.IsVisibleInLegend = false;
-                // If finished, color lime the checked numbers.
-                if (finished && i < selectNumber)
-                    series.Color = Color.Lime;
-                // Color the select number to red.
-                if (i.Equals(selectNumber))
-                {
-                    series.Color = Color.Red;
-                }
-            }
-            // Write the actual comparisons.
-            label1.Text = "Comparisons: " + comparisons;
+            //// Reset graphic.
+            //chart1.Series.Clear();
+            //// Add all array elements in the graphic and hide the legend.
+            //for (int i = 0; i < numbers.Length; i++)
+            //{
+            //    series = this.chart1.Series.Add(i.ToString());
+            //    series.Points.Add(numbers[i]);
+            //    series.IsVisibleInLegend = false;
+            //    // If finished, color lime the checked numbers.
+            //    if (finished && i < selectNumber)
+            //        series.Color = Color.Lime;
+            //    // Color the select number to red.
+            //    if (i.Equals(selectNumber))
+            //    {
+            //        series.Color = Color.Red;
+            //    }
+            //}
+            //// Write the actual comparisons.
         }
         #endregion
 
         #region Algorithm
         #region BubbleSort
-        void BubbleSort()
+        private void BubbleSort(int[] data)
         {
-            // Check that you aren't on the end of list.
-            if (selectNumber < numbers.Length - numberChecked)
+            for (int i = data.Length - 1; i >= 1; i--)
             {
-                // If select number is greater than the next, exchange their positions. 
-                if (numbers[selectNumber] > numbers[selectNumber + 1])
+                for (int j = 0; j < i; j++)
                 {
-                    int saveNumber = numbers[selectNumber];
-                    int saveLocal = selectNumber;
-                    numbers[selectNumber] = numbers[selectNumber + 1];
-                    numbers[selectNumber + 1] = saveNumber;
-                    // Go to next number.
-                    selectNumber++;
-                    // Sum comparisons.
-                    if (!finished)
+
+                    if (data[j] > data[j + 1])
+                    {
+                        int aux = data[j];
+                        data[j] = data[j + 1];
+                        data[j + 1] = aux;
                         comparisons++;
-                }
-                else
-                {
-                    // Go to next number.
-                    selectNumber++;
-                    // Sum comparisons.
-                    if (!finished)
-                        comparisons++;
+                        for (int k = 0; k < data.Length; k++)
+                        {
+                            this.Invoke(new MethodInvoker(() =>
+                            {
+                                if (k.Equals(j+1) || k.Equals(j+2))
+                                    chart1.Series[0].Points[k].Color = Color.Red;
+                                else
+                                    chart1.Series[0].Points[k].Color = Color.Black;
+                                chart1.Series[0].Points[k].SetValueXY(k, data[k]);
+                                label1.Text = "Comparisons: " + comparisons;
+                            }));
+                        }
+
+                    }
                 }
             }
-            // If you are on the end of the list.
-            // This happens when the biggest is placed to your position
-            else
+
+            for (int k = 0; k < data.Length; k++)
             {
-                // If finished, stop the timer.
-                if (finished)
-                    timer.Stop();
-                // Reset the select number.
-                selectNumber = 0;
-                // Add a number checked.
-                numberChecked++;
-                // if the numbers checked is equals the total numbers, finished.
-                if (numberChecked >= numbers.Length)
+                this.Invoke(new MethodInvoker(() =>
                 {
-                    numberChecked = 1;
-                    finished = true;
-                }
+                    chart1.Series[0].Points[k].Color = Color.Green;
+                }));
             }
+            
         }
         #endregion 
 
         #region MergeSort
-        void MergeSort(int start, int end)
+        void MergeSort(int[] data, int inicialPosition, int endPosition)
         {
-            if (start.Equals(end))
-                return; 
+            int i, j, mid;
+            int []sup;
+
+            if (inicialPosition == endPosition) return;
             
-            mid = (start + end) / 2;
+            mid = (inicialPosition + endPosition) / 2;
+            MergeSort(data, inicialPosition, mid);
+            MergeSort(data, mid + 1, endPosition);
+            
+            i = inicialPosition;
+            j = mid;
+            sup = new int[endPosition - inicialPosition + 1];
 
-            MergeSort(start, mid);
-            MergeSort(mid+1, end);
-
-            i = start;
-            j = mid + 1;
-            k = 0;
-            arrayTemp = new int[end - start + 1];
-
-            while (i < mid + 1 || j < end + 1)
+            for (int k = 0; k < sup.Length; k++)
             {
-                if (i == mid + 1)
-                { 
-                    arrayTemp[k] = numbers[j];
-                    j++;
-                }
-                else
+                if (i == mid) sup[k] = data[j++];
+                else if (j == endPosition) sup[k] = data[i++];
+                else if (data[j].CompareTo(data[i]) < 0) sup[k] = data[j++];
+                else sup[k] = data[i++];
+            }
+
+            // copia vetor intercalado para o vetor original
+            for (i = inicialPosition; i <= endPosition; i++)
+            {
+                data[i] = sup[i - inicialPosition];
+                this.Invoke(new MethodInvoker(() =>
                 {
-                    if (j == end + 1)
-                    {
-                        arrayTemp[k] = numbers[i];
-                        i++;
-                    }
-                    else
-                    {
-                        if (numbers[i] < numbers[j])
-                        {
-                            arrayTemp[k] = numbers[i];
-                            i++;
-                        }
-                        else
-                        {
-                            arrayTemp[k] = numbers[j];
-                            j++;
-                        }
-                    }
-                }
-                k++;
+                    chart1.Series[0].Points[i].Color = Color.Red;
+                    chart1.Series[0].Points[i].SetValueXY(i, data[i]);
+                    label1.Text = "Comparisons: " + comparisons;
+                }));
             }
-            for (i = start; i <= end; i++)
+            for (int n = 0; n < data.Length; n++)
             {
-                numbers[i] = arrayTemp[i - start];
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    if (n.Equals(i) || n.Equals(j))
+                        chart1.Series[0].Points[n].Color = Color.Red;
+                    else
+                        chart1.Series[0].Points[n].Color = Color.Black;
+                }));
             }
-            
         }
         #endregion 
         #endregion
