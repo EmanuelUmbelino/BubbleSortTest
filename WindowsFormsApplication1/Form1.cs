@@ -94,7 +94,7 @@ namespace WindowsFormsApplication1
         {
             this.Invoke(new MethodInvoker(() =>
             {
-                chart1.Series.Add("Execution: ");
+                chart1.Series.Add("Execution: " + domainUpDown1.Text);
                 chart1.Series[0].ChartType = SeriesChartType.Column;
                 chart1.Series[0].Points.Clear();
             }));
@@ -114,6 +114,14 @@ namespace WindowsFormsApplication1
                 MergeSort(data, 0, data.Length-1);
             else
                 MessageBox.Show("Select a Type");
+
+            for (int k = 0; k < data.Length; k++)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    chart1.Series[0].Points[k].Color = Color.Green;
+                }));
+            }
             finished = true;
         }
 
@@ -173,13 +181,6 @@ namespace WindowsFormsApplication1
                 }
             }
 
-            for (int k = 0; k < data.Length; k++)
-            {
-                this.Invoke(new MethodInvoker(() =>
-                {
-                    chart1.Series[0].Points[k].Color = Color.Green;
-                }));
-            }
             
         }
         #endregion 
@@ -187,7 +188,7 @@ namespace WindowsFormsApplication1
         #region MergeSort
         void MergeSort(int[] data, int inicialPosition, int endPosition)
         {
-            int i, j, mid;
+            int i, j, k, mid;
             int []sup;
 
             if (inicialPosition == endPosition) return;
@@ -197,15 +198,34 @@ namespace WindowsFormsApplication1
             MergeSort(data, mid + 1, endPosition);
             
             i = inicialPosition;
-            j = mid;
+            j = mid + 1;
+            k = 0;
             sup = new int[endPosition - inicialPosition + 1];
 
-            for (int k = 0; k < sup.Length; k++)
+            while (i < mid + 1 || j < endPosition + 1)
             {
-                if (i == mid) sup[k] = data[j++];
-                else if (j == endPosition) sup[k] = data[i++];
-                else if (data[j].CompareTo(data[i]) < 0) sup[k] = data[j++];
-                else sup[k] = data[i++];
+                if (i == mid + 1)
+                {
+                    sup[k] = data[j];
+                    j++;
+                }
+                else if (j == endPosition + 1)
+                {
+                    sup[k] = data[i];
+                    i++;
+                }
+                else if (data[i] < data[j])
+                {
+                    sup[k] = data[i];
+                    i++; 
+                }
+                else
+                {
+                    sup[k] = data[j];
+                    j++;
+                }
+                k++;
+                comparisons++;
             }
 
             // copia vetor intercalado para o vetor original
