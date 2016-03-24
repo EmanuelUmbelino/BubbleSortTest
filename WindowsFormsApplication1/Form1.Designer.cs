@@ -109,6 +109,7 @@
             // 
             this.domainUpDown1.Items.Add("BubbleSort");
             this.domainUpDown1.Items.Add("MergeSort");
+            this.domainUpDown1.Items.Add("QuickSort");
             this.domainUpDown1.Location = new System.Drawing.Point(221, 13);
             this.domainUpDown1.Name = "domainUpDown1";
             this.domainUpDown1.ReadOnly = true;

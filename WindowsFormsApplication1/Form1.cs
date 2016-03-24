@@ -112,6 +112,8 @@ namespace WindowsFormsApplication1
                 BubbleSort(data);
             else if (domainUpDown1.Text.Equals("MergeSort"))
                 MergeSort(data, 0, data.Length-1);
+            else if (domainUpDown1.Text.Equals("QuickSort"))
+                QuickSort(data, 0, data.Length - 1);
             else
                 MessageBox.Show("Select a Type");
 
@@ -186,30 +188,30 @@ namespace WindowsFormsApplication1
         #endregion 
 
         #region MergeSort
-        void MergeSort(int[] data, int inicialPosition, int endPosition)
+        void MergeSort(int[] data, int left, int right)
         {
             int i, j, k, mid;
             int []sup;
 
-            if (inicialPosition == endPosition) return;
+            if (left == right) return;
             
-            mid = (inicialPosition + endPosition) / 2;
-            MergeSort(data, inicialPosition, mid);
-            MergeSort(data, mid + 1, endPosition);
+            mid = (left + right) / 2;
+            MergeSort(data, left, mid);
+            MergeSort(data, mid + 1, right);
             
-            i = inicialPosition;
+            i = left;
             j = mid + 1;
             k = 0;
-            sup = new int[endPosition - inicialPosition + 1];
+            sup = new int[right - left + 1];
 
-            while (i < mid + 1 || j < endPosition + 1)
+            while (i < mid + 1 || j < right + 1)
             {
                 if (i == mid + 1)
                 {
                     sup[k] = data[j];
                     j++;
                 }
-                else if (j == endPosition + 1)
+                else if (j == right + 1)
                 {
                     sup[k] = data[i];
                     i++;
@@ -229,9 +231,9 @@ namespace WindowsFormsApplication1
             }
 
             // copia vetor intercalado para o vetor original
-            for (i = inicialPosition; i <= endPosition; i++)
+            for (i = left; i <= right; i++)
             {
-                data[i] = sup[i - inicialPosition];
+                data[i] = sup[i - left];
                 this.Invoke(new MethodInvoker(() =>
                 {
                     chart1.Series[0].Points[i].Color = Color.Red;
@@ -250,7 +252,59 @@ namespace WindowsFormsApplication1
                 }));
             }
         }
-        #endregion 
+        #endregion
+
+        #region QuickSort
+        void QuickSort(int[] data, int left, int right)
+        {
+            int i, j, x, y;
+            i = left;
+            j = right;
+            x = data[(left + right) / 2];
+
+            while (i <= j)
+            {
+                while (data[i] < x && i < right)
+                {
+                    i++;
+                }
+                while (data[j] > x && j > left)
+                {
+                    j--;
+                }
+                if (i <= j)
+                {
+                    y = data[i];
+                    data[i] = data[j];
+                    data[j] = y;
+                    i++;
+                    j--;
+                    this.Invoke(new MethodInvoker(() =>
+                    {
+                        chart1.Series[0].Points[i].Color = Color.Red;
+                        chart1.Series[0].Points[j].Color = Color.Red;
+                    }));
+                }
+            }
+            for (int n = 0; n < data.Length; n++)
+            {
+                this.Invoke(new MethodInvoker(() =>
+                {
+                    chart1.Series[0].Points[n].Color = Color.Black;
+                    chart1.Series[0].Points[n].SetValueXY(n, data[n]);
+                }));
+            }
+            if (j > left)
+            {
+                QuickSort(data, left, j);
+            }
+            if (i < right)
+            {
+                QuickSort(data, i, right);
+            }
+        }
+
+        #endregion
         #endregion
 
         #region Raffle Array Elements
