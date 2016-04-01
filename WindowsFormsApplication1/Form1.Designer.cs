@@ -32,6 +32,7 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -56,12 +57,14 @@
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.SystemColors.Window;
+            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.button1.Location = new System.Drawing.Point(383, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(184, 23);
             this.button1.TabIndex = 0;
             this.button1.Text = "Go";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.Generate);
             // 
             // chart1
@@ -69,7 +72,7 @@
             this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.chart1.BackColor = System.Drawing.Color.Transparent;
+            this.chart1.BackColor = System.Drawing.Color.Black;
             this.chart1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.chart1.BorderlineColor = System.Drawing.Color.Transparent;
             this.chart1.BorderSkin.BackColor = System.Drawing.Color.Transparent;
@@ -83,9 +86,10 @@
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
             this.chart1.PaletteCustomColors = new System.Drawing.Color[] {
-        System.Drawing.Color.Black};
+        System.Drawing.Color.Transparent};
             this.chart1.Size = new System.Drawing.Size(470, 418);
             this.chart1.TabIndex = 4;
+            this.chart1.ChartAreas[0].BackColor = System.Drawing.Color.Black;
             this.chart1.Text = "chart1";
             // 
             // numericUpDown2
@@ -93,6 +97,8 @@
             this.numericUpDown2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDown2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.numericUpDown2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.numericUpDown2.Increment = new decimal(new int[] {
             5,
             0,
@@ -124,6 +130,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(3, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(184, 27);
@@ -135,6 +142,8 @@
             this.domainUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.domainUpDown1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.domainUpDown1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.domainUpDown1.Items.Add("BubbleSort");
             this.domainUpDown1.Items.Add("MergeSort");
             this.domainUpDown1.Items.Add("QuickSort");
@@ -174,6 +183,8 @@
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDown1.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.numericUpDown1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.numericUpDown1.Increment = new decimal(new int[] {
             5,
             0,
@@ -204,6 +215,8 @@
             this.domainUpDown2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.domainUpDown2.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.domainUpDown2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.domainUpDown2.Items.Add("BubbleSort");
             this.domainUpDown2.Items.Add("MergeSort");
             this.domainUpDown2.Items.Add("QuickSort");
@@ -219,6 +232,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label2.Location = new System.Drawing.Point(763, 29);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(186, 27);
@@ -265,19 +279,21 @@
         System.Drawing.Color.Black};
             this.chart2.Size = new System.Drawing.Size(470, 418);
             this.chart2.TabIndex = 5;
+            this.chart2.ChartAreas[0].BackColor = System.Drawing.Color.Black;
             this.chart2.Text = "chart2";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
+            this.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.ClientSize = new System.Drawing.Size(976, 507);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.tableLayoutPanel2);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Sort Algorithms";
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);

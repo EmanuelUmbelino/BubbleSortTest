@@ -12,7 +12,7 @@ namespace WindowsFormsApplication1
         private Random random = new Random();
         private Thread backgroundWorker1, backgroundWorker2;
 
-        private int valueToRand1, valueToRand2, comparisons1, comparisons2;
+        private int valueToRand1, valueToRand2, comparisons1, comparisons2, waitTime;
 
         private bool finished1, finished2;
         #endregion
@@ -41,6 +41,7 @@ namespace WindowsFormsApplication1
                 chart2.Series.Clear();
                 comparisons1 = 0;
                 comparisons2 = 0;
+                waitTime = 5;
                 backgroundWorker1 = new Thread(DrawGraph1);
                 backgroundWorker1.IsBackground = true;
                 backgroundWorker1.Start();
@@ -97,7 +98,7 @@ namespace WindowsFormsApplication1
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    chart1.Series[0].Points[k].Color = Color.Green;
+                    chart1.Series[0].Points[k].Color = Color.Lime;
                 }));
             }
 
@@ -140,7 +141,7 @@ namespace WindowsFormsApplication1
             {
                 this.Invoke(new MethodInvoker(() =>
                 {
-                    chart2.Series[0].Points[k].Color = Color.Green;
+                    chart2.Series[0].Points[k].Color = Color.Lime;
                 }));
             }
             finished2 = true;
@@ -172,7 +173,7 @@ namespace WindowsFormsApplication1
                                     if (k.Equals(j + 1) || k.Equals(j + 2))
                                         chart1.Series[0].Points[k].Color = Color.Red;
                                     else
-                                        chart1.Series[0].Points[k].Color = Color.Black;
+                                        chart1.Series[0].Points[k].Color = Color.White;
                                     chart1.Series[0].Points[k].SetValueXY(k, data[k]);
                                     label1.Text = "Comparisons: " + comparisons1;
                                 }));
@@ -189,13 +190,13 @@ namespace WindowsFormsApplication1
                                     if (k.Equals(j + 1) || k.Equals(j + 2))
                                         chart2.Series[0].Points[k].Color = Color.Red;
                                     else
-                                        chart2.Series[0].Points[k].Color = Color.Black;
+                                        chart2.Series[0].Points[k].Color = Color.White;
                                     chart2.Series[0].Points[k].SetValueXY(k, data[k]);
                                     label2.Text = "Comparisons: " + comparisons2;
                                 }));
                             }
                         }
-                        Thread.Sleep(5);
+                        Thread.Sleep(waitTime);
 
                     }
                 }
@@ -263,7 +264,7 @@ namespace WindowsFormsApplication1
                         label1.Text = "Comparisons: " + comparisons1;
                     }));
 
-                    Thread.Sleep(5);
+                    Thread.Sleep(waitTime);
                 }
 
                 for (int n = 0; n < data.Length; n++)
@@ -273,10 +274,10 @@ namespace WindowsFormsApplication1
                         if (n.Equals(i) || n.Equals(j))
                             chart1.Series[0].Points[n].Color = Color.Red;
                         else
-                            chart1.Series[0].Points[n].Color = Color.Black;
+                            chart1.Series[0].Points[n].Color = Color.White;
                     }));
                 }
-                Thread.Sleep(5);
+                Thread.Sleep(waitTime);
             }
 
             else
@@ -291,7 +292,7 @@ namespace WindowsFormsApplication1
                         chart2.Series[0].Points[i].SetValueXY(i, data[i]);
                         label2.Text = "Comparisons: " + comparisons2;
                     }));
-                    Thread.Sleep(5);
+                    Thread.Sleep(waitTime);
                 }
 
                 for (int n = 0; n < data.Length; n++)
@@ -301,10 +302,10 @@ namespace WindowsFormsApplication1
                         if (n.Equals(i) || n.Equals(j))
                             chart2.Series[0].Points[n].Color = Color.Red;
                         else
-                            chart2.Series[0].Points[n].Color = Color.Black;
+                            chart2.Series[0].Points[n].Color = Color.White;
                     }));
                 }
-                Thread.Sleep(5);
+                Thread.Sleep(waitTime);
             }
         }
         #endregion
@@ -346,7 +347,7 @@ namespace WindowsFormsApplication1
                                 chart1.Series[0].Points[j].Color = Color.Red;
                                 label1.Text = "Comparisons: " + comparisons1;
                             }));
-                            Thread.Sleep(5);
+                            Thread.Sleep(waitTime);
                         }
                         else
                         {
@@ -358,7 +359,7 @@ namespace WindowsFormsApplication1
                                 chart2.Series[0].Points[j].Color = Color.Red;
                                 label2.Text = "Comparisons: " + comparisons2;
                             }));
-                            Thread.Sleep(5);
+                            Thread.Sleep(waitTime);
                         }
                     }
                 }
@@ -369,7 +370,7 @@ namespace WindowsFormsApplication1
                 {
                     this.Invoke(new MethodInvoker(() =>
                     {
-                        chart1.Series[0].Points[n].Color = Color.Black;
+                        chart1.Series[0].Points[n].Color = Color.White;
                         chart1.Series[0].Points[n].SetValueXY(n, data[n]);
                         label1.Text = "Comparisons: " + comparisons1;
                     }));
@@ -381,13 +382,13 @@ namespace WindowsFormsApplication1
                 {
                     this.Invoke(new MethodInvoker(() =>
                     {
-                        chart2.Series[0].Points[n].Color = Color.Black;
+                        chart2.Series[0].Points[n].Color = Color.White;
                         chart2.Series[0].Points[n].SetValueXY(n, data[n]);
                         label2.Text = "Comparisons: " + comparisons2;
                     }));
                 }
             }
-            Thread.Sleep(5);
+            Thread.Sleep(waitTime);
             if (j > left)
             {
                 QuickSort(data, left, j, myThread);
