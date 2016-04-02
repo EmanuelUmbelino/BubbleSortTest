@@ -46,6 +46,7 @@
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.domainUpDown2 = new System.Windows.Forms.DomainUpDown();
             this.label2 = new System.Windows.Forms.Label();
+            this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -55,21 +56,21 @@
             this.chart4 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chart3 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
             this.button2 = new System.Windows.Forms.Button();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
             this.domainUpDown4 = new System.Windows.Forms.DomainUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
-            this.domainUpDown3 = new System.Windows.Forms.DomainUpDown();
-            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -79,12 +80,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -276,6 +276,35 @@
             this.label2.Text = "Select a Type";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // numericUpDown8
+            // 
+            this.numericUpDown8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDown8.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.numericUpDown8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.numericUpDown8.Location = new System.Drawing.Point(421, 32);
+            this.numericUpDown8.Maximum = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+            this.numericUpDown8.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDown8.Name = "numericUpDown8";
+            this.numericUpDown8.Size = new System.Drawing.Size(203, 20);
+            this.numericUpDown8.TabIndex = 15;
+            this.numericUpDown8.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericUpDown8.ValueChanged += new System.EventHandler(this.ChangeVelocity);
+            this.numericUpDown8.Leave += new System.EventHandler(this.ChangeVelocity);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -450,6 +479,50 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(1047, 56);
             this.tableLayoutPanel3.TabIndex = 9;
             // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.numericUpDown7.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.numericUpDown7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.numericUpDown7.Location = new System.Drawing.Point(421, 32);
+            this.numericUpDown7.Maximum = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(203, 20);
+            this.numericUpDown7.TabIndex = 14;
+            this.numericUpDown7.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numericUpDown7.ValueChanged += new System.EventHandler(this.ChangeVelocity);
+            this.numericUpDown7.Leave += new System.EventHandler(this.ChangeVelocity);
+            // 
+            // domainUpDown3
+            // 
+            this.domainUpDown3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.domainUpDown3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.domainUpDown3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.domainUpDown3.Items.Add("Linear");
+            this.domainUpDown3.Items.Add("Binary");
+            this.domainUpDown3.Location = new System.Drawing.Point(212, 32);
+            this.domainUpDown3.Name = "domainUpDown3";
+            this.domainUpDown3.ReadOnly = true;
+            this.domainUpDown3.Size = new System.Drawing.Size(203, 20);
+            this.domainUpDown3.TabIndex = 13;
+            // 
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -497,38 +570,6 @@
             0,
             0});
             // 
-            // numericUpDown5
-            // 
-            this.numericUpDown5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown5.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.numericUpDown5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.numericUpDown5.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Location = new System.Drawing.Point(3, 32);
-            this.numericUpDown5.Maximum = new decimal(new int[] {
-            3000,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(203, 20);
-            this.numericUpDown5.TabIndex = 11;
-            this.numericUpDown5.Value = new decimal(new int[] {
-            25,
-            0,
-            0,
-            0});
-            // 
             // domainUpDown4
             // 
             this.domainUpDown4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -556,38 +597,6 @@
             this.label3.Size = new System.Drawing.Size(203, 29);
             this.label3.TabIndex = 6;
             this.label3.Text = "Select a Type";
-            // 
-            // numericUpDown3
-            // 
-            this.numericUpDown3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.numericUpDown3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.numericUpDown3.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericUpDown3.Location = new System.Drawing.Point(212, 3);
-            this.numericUpDown3.Maximum = new decimal(new int[] {
-            3000,
-            0,
-            0,
-            0});
-            this.numericUpDown3.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(203, 20);
-            this.numericUpDown3.TabIndex = 9;
-            this.numericUpDown3.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
             // 
             // label4
             // 
@@ -635,78 +644,69 @@
             0,
             0});
             // 
-            // domainUpDown3
+            // numericUpDown5
             // 
-            this.domainUpDown3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.numericUpDown5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.domainUpDown3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.domainUpDown3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.domainUpDown3.Items.Add("Linear");
-            this.domainUpDown3.Items.Add("Binary");
-            this.domainUpDown3.Location = new System.Drawing.Point(212, 32);
-            this.domainUpDown3.Name = "domainUpDown3";
-            this.domainUpDown3.ReadOnly = true;
-            this.domainUpDown3.Size = new System.Drawing.Size(203, 20);
-            this.domainUpDown3.TabIndex = 13;
-            // 
-            // numericUpDown7
-            // 
-            this.numericUpDown7.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown7.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.numericUpDown7.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.numericUpDown7.Location = new System.Drawing.Point(421, 32);
-            this.numericUpDown7.Maximum = new decimal(new int[] {
+            this.numericUpDown5.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.numericUpDown5.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.numericUpDown5.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Location = new System.Drawing.Point(3, 32);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
             3000,
             0,
             0,
             0});
-            this.numericUpDown7.Minimum = new decimal(new int[] {
-            3,
+            this.numericUpDown5.Minimum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
-            this.numericUpDown7.Name = "numericUpDown7";
-            this.numericUpDown7.Size = new System.Drawing.Size(203, 20);
-            this.numericUpDown7.TabIndex = 14;
-            this.numericUpDown7.Value = new decimal(new int[] {
-            50,
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(203, 20);
+            this.numericUpDown5.TabIndex = 11;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            25,
             0,
             0,
             0});
-            this.numericUpDown7.ValueChanged += new System.EventHandler(this.ChangeVelocity);
-            this.numericUpDown7.Leave += new System.EventHandler(this.ChangeVelocity);
             // 
-            // numericUpDown8
+            // numericUpDown3
             // 
-            this.numericUpDown8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.numericUpDown3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numericUpDown8.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.numericUpDown8.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.numericUpDown8.Location = new System.Drawing.Point(421, 32);
-            this.numericUpDown8.Maximum = new decimal(new int[] {
+            this.numericUpDown3.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.numericUpDown3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.numericUpDown3.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Location = new System.Drawing.Point(212, 3);
+            this.numericUpDown3.Maximum = new decimal(new int[] {
             3000,
             0,
             0,
             0});
-            this.numericUpDown8.Minimum = new decimal(new int[] {
-            3,
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            5,
             0,
             0,
             0});
-            this.numericUpDown8.Name = "numericUpDown8";
-            this.numericUpDown8.Size = new System.Drawing.Size(203, 20);
-            this.numericUpDown8.TabIndex = 15;
-            this.numericUpDown8.Value = new decimal(new int[] {
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(203, 20);
+            this.numericUpDown3.TabIndex = 9;
+            this.numericUpDown3.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            this.numericUpDown8.ValueChanged += new System.EventHandler(this.ChangeVelocity);
-            this.numericUpDown8.Leave += new System.EventHandler(this.ChangeVelocity);
             // 
             // Form1
             // 
@@ -724,6 +724,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
             this.tabControl1.ResumeLayout(false);
@@ -734,12 +735,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
             this.ResumeLayout(false);
 
         }
