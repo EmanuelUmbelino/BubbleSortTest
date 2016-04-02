@@ -75,11 +75,11 @@ namespace WindowsFormsApplication1
         }
         private void Call1()
         {
-            DrawGraph(1, chart1, domainUpDown1, numericUpDown1, label1);
+            DrawGraph(0, chart1, domainUpDown1, numericUpDown1, label1);
         }
         private void Call2()
         {
-            DrawGraph(2, chart2, domainUpDown2, numericUpDown2, label2);
+            DrawGraph(1, chart2, domainUpDown2, numericUpDown2, label2);
         }
 
         #endregion
@@ -111,11 +111,11 @@ namespace WindowsFormsApplication1
         }
         private void Call3()
         {
-            DrawGraph(1, chart3, domainUpDown3, numericUpDown3, label3, int.Parse(numericUpDown5.Value.ToString()));
+            DrawGraph(2, chart3, domainUpDown3, numericUpDown3, label3, int.Parse(numericUpDown5.Value.ToString()));
         }
         private void Call4()
         {
-            DrawGraph(2, chart3, domainUpDown4, numericUpDown4, label4, int.Parse(numericUpDown6.Value.ToString()));
+            DrawGraph(3, chart4, domainUpDown4, numericUpDown4, label4, int.Parse(numericUpDown6.Value.ToString()));
         }
         #endregion
 
